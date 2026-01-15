@@ -28,10 +28,12 @@ Personal home server setup for remote Claude Code CLI access via Tailscale.
 | Claude Code CLI | AI coding assistant |
 | tmux | Terminal multiplexer for persistent sessions |
 
-### Optional Services (Docker)
+### Docker Services
 
 | Service | Purpose |
 |---------|---------|
+| GitHub Actions Runner | Self-hosted CI/CD for Jeffrey-Keyser repos |
+| Cron HQ (local) | Dev/staging instance for scheduled job orchestration |
 | Caddy | Reverse proxy with auto-TLS |
 | Uptime Kuma | Service health monitoring |
 
@@ -107,6 +109,59 @@ sudo apt install -y tmux
 cp .tmux.conf ~/.tmux.conf
 ```
 
+## GitHub Actions Runner
+
+Self-hosted runner for the Jeffrey-Keyser organization. Provides free CI/CD minutes and access to the Tailscale network during builds.
+
+```bash
+# Start the runner
+docker compose up -d github-runner
+```
+
+Register the runner at: https://github.com/organizations/Jeffrey-Keyser/settings/actions/runners
+
+Benefits:
+- Unlimited build minutes (vs GitHub's 2000/month free tier)
+- Access to local services via Tailscale during CI
+- Faster builds with local caching
+
+## Scheduled Claude Code Tasks
+
+Use cron to send commands to a running Claude Code session via tmux. This enables automated tasks like dependency updates, test runs, or code reviews.
+
+### Setup
+
+```bash
+# Create a dedicated tmux session for scheduled tasks
+tmux new-session -d -s claude-scheduled
+
+# Add cron jobs
+crontab -e
+```
+
+### Example Cron Jobs
+
+```bash
+# Run tests every morning at 8am
+0 8 * * * tmux send-keys -t claude-scheduled 'cd ~/projects/myapp && claude "run the test suite and fix any failures"' Enter
+
+# Check for dependency updates weekly (Sunday 2am)
+0 2 * * 0 tmux send-keys -t claude-scheduled 'cd ~/projects/myapp && claude "check for outdated dependencies and create a summary"' Enter
+
+# Daily standup prep (weekdays 8:30am)
+30 8 * * 1-5 tmux send-keys -t claude-scheduled 'cd ~/projects/myapp && claude "summarize git commits from yesterday and list open issues"' Enter
+```
+
+### Viewing Output
+
+```bash
+# Attach to see results
+tmux attach -t claude-scheduled
+
+# Or capture to a log file
+tmux capture-pane -t claude-scheduled -p > ~/logs/claude-$(date +%Y%m%d).log
+```
+
 ## Costs
 
 | Item | Cost |
@@ -114,6 +169,7 @@ cp .tmux.conf ~/.tmux.conf
 | Ubuntu Server | Free |
 | Docker | Free |
 | Tailscale | Free (personal tier) |
+| GitHub Actions Runner | Free (self-hosted) |
 | tmux | Free |
 | **Claude Code CLI** | **API usage (~$20-100+/month)** |
 
