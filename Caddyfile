@@ -1,0 +1,12 @@
+# Example Caddyfile for homelab services
+# Uncomment and modify as needed
+
+# Uptime Kuma (example with Tailscale domain)
+# uptime.homelab.tailnet-name.ts.net {
+#     reverse_proxy uptime-kuma:3001
+# }
+
+# Generic localhost config for testing
+:80 {
+    respond "Homelab Caddy is running"
+}

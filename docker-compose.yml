@@ -1,0 +1,39 @@
+# Optional services for homelab
+# Start with: docker compose up -d
+
+services:
+  # Reverse proxy with automatic TLS
+  caddy:
+    image: caddy:2-alpine
+    container_name: caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - homelab
+
+  # Service health monitoring
+  uptime-kuma:
+    image: louislam/uptime-kuma:1
+    container_name: uptime-kuma
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    volumes:
+      - uptime_kuma_data:/app/data
+    networks:
+      - homelab
+
+volumes:
+  caddy_data:
+  caddy_config:
+  uptime_kuma_data:
+
+networks:
+  homelab:
+    driver: bridge
