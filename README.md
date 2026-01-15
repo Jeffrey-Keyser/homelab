@@ -6,9 +6,9 @@ Personal home server setup for remote Claude Code CLI access via Tailscale.
 
 | Device | Model | Purpose |
 |--------|-------|---------|
-| **Server** | [Beelink ME Mini N150](https://www.bee-link.com/products/beelink-me-mini-n150) | Docker host, Tailscale exit node |
-| **Travel Router** | [GL.iNet Beryl AX (GL-MT3000)](https://www.gl-inet.com/products/gl-mt3000/) | Remote Tailscale access from anywhere |
-| **Remote KVM** | [GL.iNet Comet PoE (GL-RM1PE)](https://store-us.gl-inet.com/products/comet-poe-gl-rm1pe-remote-kvm-control-over-internet) | BIOS-level remote access |
+| **Server** | [Beelink ME Mini N150](https://www.bee-link.com/products/beelink-me-mini-n150) | Docker host, Claude Code CLI |
+| **Travel Router** | [GL.iNet Beryl AX (GL-MT3000)](https://www.gl-inet.com/products/gl-mt3000/) | Tailscale access from anywhere |
+| **Remote KVM** | [GL.iNet Comet PoE (GL-RM1PE)](https://store-us.gl-inet.com/products/comet-poe-gl-rm1pe-remote-kvm-control-over-internet) | BIOS-level emergency access |
 
 ### Server Specs (Beelink ME Mini N150)
 
@@ -35,12 +35,43 @@ Personal home server setup for remote Claude Code CLI access via Tailscale.
 | Caddy | Reverse proxy with auto-TLS |
 | Uptime Kuma | Service health monitoring |
 
+## Network Architecture
+
+The home Windows PC acts as the central hub. When traveling, RDP into the Windows PC, then access everything else with minimal latency:
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│                       From Travel Laptop                          │
+│                              │                                    │
+│                      RDP via Tailscale                            │
+│                         (50-100ms)                                │
+│                              ▼                                    │
+│                   ┌──────────────────┐                            │
+│                   │  Home Windows PC  │                           │
+│                   │      (hub)        │                           │
+│                   └────────┬─────────┘                            │
+│                            │                                      │
+│           ┌────────────────┼────────────────┐                     │
+│           ▼                ▼                ▼                     │
+│     ┌──────────┐    ┌───────────┐    ┌───────────┐               │
+│     │ Beelink  │    │  Work PC  │    │ Comet KVM │               │
+│     │ SSH/tmux │    │    RDP    │    │ (backup)  │               │
+│     └──────────┘    └───────────┘    └───────────┘               │
+│        ~1ms           ~10-20ms         if needed                  │
+│                                                                   │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+This avoids nested RDP (which degrades quality). From the Windows hub:
+- **SSH to Beelink** for Claude Code sessions (instant)
+- **RDP to Work PC** as a single hop (feels local)
+- **Comet KVM** web interface if Beelink needs emergency access
+
 ## Setup
 
 ### Quick Start
 
 ```bash
-# Clone and run setup
 git clone https://github.com/Jeffrey-Keyser/homelab.git
 cd homelab
 chmod +x scripts/setup.sh
@@ -76,61 +107,6 @@ sudo apt install -y tmux
 cp .tmux.conf ~/.tmux.conf
 ```
 
-## Usage
-
-### Starting Claude Code
-
-```bash
-# Create a named tmux session
-tmux new -s claude
-
-# Run Claude Code
-claude
-```
-
-### Remote Access
-
-From any device on your Tailscale network:
-
-```bash
-# SSH into server
-ssh user@homelab.tailnet-name.ts.net
-
-# Attach to existing session
-tmux attach -t claude
-```
-
-### tmux Basics
-
-| Command | Action |
-|---------|--------|
-| `Ctrl+b d` | Detach from session (keeps running) |
-| `Ctrl+b c` | Create new window |
-| `Ctrl+b n` | Next window |
-| `Ctrl+b p` | Previous window |
-| `Ctrl+b [` | Enter scroll mode (q to exit) |
-| `exit` | Close current pane/window |
-
-## Network Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                      Tailscale Network                       │
-├─────────────────────────────────────────────────────────────┤
-│                                                              │
-│  ┌──────────────┐     ┌──────────────┐     ┌──────────────┐ │
-│  │   Laptop     │     │  Beelink     │     │  Beryl AX    │ │
-│  │  (anywhere)  │────▶│   Server     │◀────│  (travel)    │ │
-│  └──────────────┘     └──────┬───────┘     └──────────────┘ │
-│                              │                               │
-│                       ┌──────┴───────┐                       │
-│                       │  Comet KVM   │                       │
-│                       │ (emergency)  │                       │
-│                       └──────────────┘                       │
-│                                                              │
-└─────────────────────────────────────────────────────────────┘
-```
-
 ## Costs
 
 | Item | Cost |
@@ -143,24 +119,12 @@ tmux attach -t claude
 
 The only recurring cost is Anthropic API usage for Claude Code.
 
-## Backup Strategy
-
-Consider implementing backups for:
-- Claude Code configuration (`~/.claude/`)
-- Docker volumes
-- Any project repositories
-
 ## Troubleshooting
 
 ### Can't SSH into server
 1. Check Tailscale status: `tailscale status`
 2. Verify server is online via Comet KVM
 3. Check if SSH service is running: `sudo systemctl status ssh`
-
-### tmux session lost
-Sessions persist through SSH disconnects but not server reboots. Consider:
-- Using `tmux-resurrect` plugin for session persistence
-- Running Claude Code in a systemd service
 
 ### Docker permission denied
 ```bash
