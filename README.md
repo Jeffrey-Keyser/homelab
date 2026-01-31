@@ -26,6 +26,7 @@ Personal home server setup for remote Claude Code CLI access via Tailscale.
 | Tailscale | Secure mesh VPN (free tier) |
 | Docker | Container runtime |
 | Claude Code CLI | AI coding assistant |
+| [OpenClaw](https://docs.openclaw.ai) | AI gateway with messaging channel integrations |
 | tmux | Terminal multiplexer for persistent sessions |
 
 ### Docker Services
@@ -102,6 +103,14 @@ sudo apt install -y nodejs
 # Install Claude Code CLI
 npm install -g @anthropic-ai/claude-code
 
+# Install OpenClaw
+curl -fsSL https://openclaw.bot/install.sh | bash
+# Add npm global bin to PATH
+echo 'export PATH="$HOME/.npm-global/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+# Run onboarding wizard
+openclaw onboard --install-daemon
+
 # Install tmux
 sudo apt install -y tmux
 
@@ -162,6 +171,39 @@ tmux attach -t claude-scheduled
 tmux capture-pane -t claude-scheduled -p > ~/logs/claude-$(date +%Y%m%d).log
 ```
 
+## OpenClaw Gateway
+
+OpenClaw provides AI assistant access via messaging channels (WhatsApp, Telegram, Discord, etc.) and a local web dashboard.
+
+### Setup
+
+```bash
+# Run the onboarding wizard (if not done during install)
+openclaw onboard --install-daemon
+
+# Check gateway status
+openclaw gateway status
+
+# Start gateway manually (if needed)
+openclaw gateway --port 18789 --verbose
+```
+
+### Web Dashboard
+
+Access the dashboard at `http://127.0.0.1:18789/` on the Beelink, or via Tailscale at `http://100.99.136.81:18789/`.
+
+### Messaging Channels
+
+```bash
+# WhatsApp - scan QR code to link
+openclaw channels login
+
+# Check channel status
+openclaw channels status
+```
+
+See [OpenClaw documentation](https://docs.openclaw.ai) for Telegram, Discord, and other channel setup.
+
 ## Costs
 
 | Item | Cost |
@@ -171,9 +213,10 @@ tmux capture-pane -t claude-scheduled -p > ~/logs/claude-$(date +%Y%m%d).log
 | Tailscale | Free (personal tier) |
 | GitHub Actions Runner | Free (self-hosted) |
 | tmux | Free |
+| OpenClaw | Free (uses your API keys) |
 | **Claude Code CLI** | **API usage (~$20-100+/month)** |
 
-The only recurring cost is Anthropic API usage for Claude Code.
+The only recurring cost is Anthropic API usage for Claude Code and OpenClaw.
 
 ## Troubleshooting
 
