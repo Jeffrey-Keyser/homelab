@@ -1,0 +1,26 @@
+{
+  "allowedRoots": [
+    {
+      "path": "/home/jkeyser/google-tools",
+      "allowReadWrite": false,
+      "description": "Google API CLI tool"
+    },
+    {
+      "path": "/home/jkeyser/spotify-tools",
+      "allowReadWrite": false,
+      "description": "Spotify CLI tool"
+    },
+    {
+      "path": "/home/jkeyser/pyatv-env",
+      "allowReadWrite": false,
+      "description": "Apple TV control (pyatv virtualenv)"
+    },
+    {
+      "path": "/home/jkeyser/.cargo/bin",
+      "allowReadWrite": false,
+      "description": "Rust cargo binaries (himalaya email CLI)"
+    }
+  ],
+  "blockedPatterns": [],
+  "nonMainReadOnly": true
+}

@@ -1,0 +1,10 @@
+{
+  "default": { "allow": "*", "mode": "trigger" },
+  "chats": {
+    "tg:8340382755": {
+      "allow": ["8340382755"],
+      "mode": "trigger"
+    }
+  },
+  "logDenied": true
+}
