@@ -1,0 +1,17 @@
+[Unit]
+Description=NanoClaw Personal AI Assistant
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/jkeyser/nanoclaw
+ExecStart=/home/jkeyser/nanoclaw/start-nanoclaw.sh
+Restart=always
+RestartSec=5
+Environment=HOME=/home/jkeyser
+Environment=PATH=/usr/local/bin:/usr/bin:/bin:/home/jkeyser/.local/bin
+StandardOutput=append:/home/jkeyser/nanoclaw/logs/nanoclaw.log
+StandardError=append:/home/jkeyser/nanoclaw/logs/nanoclaw.error.log
+
+[Install]
+WantedBy=default.target
