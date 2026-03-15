@@ -204,6 +204,14 @@ openclaw channels status
 
 See [OpenClaw documentation](https://docs.openclaw.ai) for Telegram, Discord, and other channel setup.
 
+## Dotfiles
+
+Tracked in `dotfiles/` and installed by `scripts/setup.sh`.
+
+| Path | Purpose |
+|------|---------|
+| `dotfiles/claude/hooks/notify-telegram.sh` | Claude Code hook that sends Telegram notifications via NanoClaw IPC when Claude needs attention (permission prompts, idle, task completed) |
+
 ## Costs
 
 | Item | Cost |
