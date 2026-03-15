@@ -97,6 +97,21 @@ else
     print_warning "No .tmux.conf found in repo, skipping"
 fi
 
+# Setup Claude Code hooks
+echo ""
+echo "=== Setting Up Claude Code Hooks ==="
+CLAUDE_HOOKS_SRC="$REPO_DIR/dotfiles/claude/hooks"
+CLAUDE_HOOKS_DST="$HOME/.claude/hooks"
+
+if [ -d "$CLAUDE_HOOKS_SRC" ]; then
+    mkdir -p "$CLAUDE_HOOKS_DST"
+    cp "$CLAUDE_HOOKS_SRC"/* "$CLAUDE_HOOKS_DST/"
+    chmod +x "$CLAUDE_HOOKS_DST"/*
+    print_status "Claude Code hooks copied to $CLAUDE_HOOKS_DST"
+else
+    print_warning "No Claude hooks found in repo, skipping"
+fi
+
 # Final status
 echo ""
 echo "=== Setup Complete ==="
