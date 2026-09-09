@@ -25,3 +25,6 @@ Thumbs.db
 # Logs
 *.log
 logs/
+
+# Cloudflare Tunnel credentials (the ingress YAML is tracked separately)
+cloudflared/*.json

@@ -1,0 +1,202 @@
+tunnel: beelink
+credentials-file: /etc/cloudflared/6007536e-34eb-42c4-830f-d7bb8d899868.json
+
+ingress:
+  # --- Port 3001: Apps Portal API ---
+  - hostname: apps-api.jeffreykeyser.net
+    service: http://localhost:3001
+  - hostname: api.apps.jeffreykeyser.net
+    service: http://localhost:3001
+  - hostname: flights-api.jeffreykeyser.net
+    service: http://localhost:3081
+
+  # --- Port 3002: Prompt Registry ---
+  - hostname: prompt.jeffreykeyser.net
+    service: http://localhost:3002
+  - hostname: prompt-api.jeffreykeyser.net
+    service: http://localhost:3002
+
+  # --- Port 3003: JeffreyKeyser.net API ---
+  - hostname: api.jeffreykeyser.net
+    service: http://localhost:3003
+
+  # --- Port 3004: JeffreyKeyser.net ---
+  - hostname: jeffreykeyser.net
+    service: http://localhost:3004
+  - hostname: www.jeffreykeyser.net
+    service: http://localhost:3004
+
+  # --- Port 3005: AI Proxy API ---
+  - hostname: ai-proxy-api.jeffreykeyser.net
+    service: http://localhost:3005
+    originRequest:
+      connectTimeout: 120s
+      noTLSVerify: false
+      keepAliveTimeout: 120s
+
+  # --- Port 3008: Apps Portal Frontend ---
+  - hostname: apps.jeffreykeyser.net
+    service: http://localhost:3008
+
+  # --- Port 3009-3010: Insta Travel Map ---
+  - hostname: travel-map-api.jeffreykeyser.net
+    service: http://localhost:3009
+  - hostname: travel-map.jeffreykeyser.net
+    service: http://localhost:3010
+
+  # --- Port 3011-3012: Pantry ---
+  - hostname: pantry-api.jeffreykeyser.net
+    service: http://localhost:3011
+  - hostname: pantry.jeffreykeyser.net
+    service: http://localhost:3012
+
+  # --- Port 3052: Pantry Manager ---
+  - hostname: pantry-manager.jeffreykeyser.net
+    service: http://localhost:3052
+
+  # --- Port 3013-3014: Dota 2 Draft Helper ---
+  - hostname: dota-draft-api.jeffreykeyser.net
+    service: http://localhost:3013
+  - hostname: dota-draft.jeffreykeyser.net
+    service: http://localhost:3014
+
+  # --- Port 3015: Solo Vault ---
+  - hostname: solo-vault-api.jeffreykeyser.net
+    service: http://localhost:3015
+
+  # --- Port 3016: Cron Service ---
+  - hostname: cron.jeffreykeyser.net
+    service: http://localhost:3016
+
+  # --- Port 3017: Pay Service ---
+  - hostname: pay.jeffreykeyser.net
+    service: http://localhost:3017
+  - hostname: pay-api.jeffreykeyser.net
+    service: http://localhost:3017
+
+  # --- Port 3018-3019: Analytics Pulse ---
+  - hostname: analytics-api.jeffreykeyser.net
+    service: http://localhost:3018
+  - hostname: analytics.jeffreykeyser.net
+    service: http://localhost:3019
+
+  # --- Port 3020-3021: Ping ---
+  - hostname: ping-api.jeffreykeyser.net
+    service: http://localhost:3020
+  - hostname: ping.jeffreykeyser.net
+    service: http://localhost:3021
+
+  # --- Port 3022-3023: Music Store ---
+  - hostname: music-api.jeffreykeyser.net
+    service: http://localhost:3022
+  - hostname: music.jeffreykeyser.net
+    service: http://localhost:3023
+
+  # --- Port 3025: Feedback Registry ---
+  - hostname: feedback.jeffreykeyser.net
+    service: http://localhost:3025
+
+  # --- Port 3026-3027: Life Journal ---
+  - hostname: life-api.jeffreykeyser.net
+    service: http://localhost:3026
+  - hostname: life.jeffreykeyser.net
+    service: http://localhost:3027
+
+  # --- Port 3030-3031: Image Studio ---
+  - hostname: images-api.jeffreykeyser.net
+    service: http://localhost:3030
+  - hostname: images.jeffreykeyser.net
+    service: http://localhost:3031
+
+  # --- Port 3050-3051: Cream City Web ---
+  - hostname: creamcityweb.com
+    service: http://localhost:3050
+  - hostname: www.creamcityweb.com
+    service: http://localhost:3050
+  - hostname: api.creamcityweb.com
+    service: http://localhost:3051
+  - hostname: ccw-api.jeffreykeyser.net
+    service: http://localhost:3051
+
+  # --- Port 3080: Flights Frontend ---
+  - hostname: flights.jeffreykeyser.net
+    service: http://localhost:3080
+
+  # --- Port 3099: OpenClaw Bridge (Twilio / CCW Email) ---
+  - hostname: twilio.jeffreykeyser.net
+    service: http://localhost:3099
+  - hostname: webhook.creamcityweb.com
+    service: http://localhost:3099
+  - hostname: ccw.jeffreykeyser.net
+    service: http://localhost:3099
+
+  # --- Port 6080: noVNC Remote Access ---
+  - hostname: vnc.jeffreykeyser.net
+    service: http://localhost:6080
+
+  # --- Port 9000: Deploy Webhook ---
+  - hostname: deploy.jeffreykeyser.net
+    service: http://localhost:9000
+
+  # --- Port 19999: Netdata Metrics ---
+  - hostname: metrics.jeffreykeyser.net
+    service: http://localhost:19999
+
+  # --- Port 3035-3036: MyRRS ---
+  - hostname: myrrs-api.jeffreykeyser.net
+    service: http://localhost:3035
+  - hostname: myrrs.jeffreykeyser.net
+    service: http://localhost:3036
+
+  # --- Port 3041: Business HQ ---
+  - hostname: business.jeffreykeyser.net
+    service: http://localhost:3041
+
+  # --- Port 3040: Agency HQ ---
+  - hostname: agency.jeffreykeyser.net
+    service: http://localhost:3040
+    originRequest:
+      connectTimeout: 120s
+      keepAliveTimeout: 300s
+
+  # --- Port 3060-3061: nof1 Experiment Tracker ---
+  - hostname: nof1-api.jeffreykeyser.net
+    service: http://localhost:3060
+  - hostname: nof1.jeffreykeyser.net
+    service: http://localhost:3061
+
+  # --- Port 3042: QA Patrol ---
+  - hostname: qa-patrol.jeffreykeyser.net
+    service: http://localhost:3042
+
+  # --- Port 3070: Logos ---
+  - hostname: logos.jeffreykeyser.net
+    service: http://localhost:3070
+
+  # --- Port 3062: Project Wiki ---
+  - hostname: wiki.jeffreykeyser.net
+    service: http://localhost:3062
+
+  # --- Wildcard: Cream City Web mockup previews ---
+  - hostname: clip.jeffreykeyser.net
+    service: http://localhost:3053
+
+  # Spanish Studio — send API traffic directly to the backend; static SPA on 3055.
+  - hostname: spanish-studio.jeffreykeyser.net
+    path: ^/api/.*
+    service: http://localhost:3054
+  - hostname: spanish-studio.jeffreykeyser.net
+    service: http://localhost:3055
+  - hostname: "*.creamcityweb.com"
+    service: http://localhost:3050
+  - hostname: "*.jeffreykeyser.net"
+    service: http://localhost:3050
+
+  # --- Port 3110: jeffjeff.dev static site ---
+  - hostname: jeffjeff.dev
+    service: http://localhost:3110
+  - hostname: www.jeffjeff.dev
+    service: http://localhost:3110
+
+  # Catch-all
+  - service: http_status:404

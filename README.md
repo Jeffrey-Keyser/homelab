@@ -212,6 +212,21 @@ Tracked in `dotfiles/` and installed by `scripts/setup.sh`.
 |------|---------|
 | `dotfiles/claude/hooks/notify-telegram.sh` | Claude Code hook that sends Telegram notifications via NanoClaw IPC when Claude needs attention (permission prompts, idle, task completed) |
 
+## Cloudflare Tunnel
+
+The reviewed ingress source of truth is `cloudflared/config.yml`. Tunnel credentials remain only on
+the host under `/etc/cloudflared/` and are excluded from Git.
+
+After placing the tunnel credentials file referenced by the configuration on the host, run:
+
+```bash
+./scripts/update-cloudflared.sh
+```
+
+The script installs Cloudflare's official APT source, upgrades `cloudflared`, validates the tracked
+ingress rules, preserves the previous live configuration as `/etc/cloudflared/config.yml.previous`,
+and restarts the tunnel. Edit the tracked file and rerun the script for future ingress changes.
+
 ## Costs
 
 | Item | Cost |
