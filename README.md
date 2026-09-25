@@ -14,9 +14,24 @@ Personal home server setup for remote Claude Code CLI access via Tailscale.
 
 - **CPU**: Intel Twin Lake N150 (4 cores, 4 threads, 3.6 GHz burst)
 - **RAM**: 16GB LPDDR5-4800
-- **Storage**: 1TB NVMe SSD (5 empty M.2 slots for expansion)
+- **Storage**: 2x 1TB NVMe SSD (root + `/mnt/ssd`, 4 empty M.2 slots for expansion)
 - **Network**: Dual 2.5G LAN (Intel i226-V), WiFi 6, Bluetooth 5.2
 - **Dimensions**: 99 x 99 x 99 mm
+
+### Storage
+
+| Device | Model | Filesystem | Mount | UUID | Purpose |
+|--------|-------|------------|-------|------|---------|
+| `nvme0n1` | Crucial CT1000E100SSD8 1TB | ext4 | `/` | `df9df6a3-7bd6-4358-bc3b-ce3308c36f09` | Root OS |
+| `nvme1n1p1` | WD_BLACK SN7100 1TB | ext4 (`ssd` label) | `/mnt/ssd` | `0950fb98-ce9b-43f6-bde5-5fe2ce046339` | App data, backup scratch |
+
+fstab (persisted with `nofail`):
+
+```
+UUID=0950fb98-ce9b-43f6-bde5-5fe2ce046339 /mnt/ssd ext4 defaults,nofail 0 2
+```
+
+Reproduce via `scripts/mount-ssd.sh` (idempotent; wipes `nvme1n1` only).
 
 ## Software Stack
 
