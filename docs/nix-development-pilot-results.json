@@ -1,0 +1,192 @@
+{
+  "date": "2026-10-11",
+  "scope": "local x86_64-linux pilot; no CI, deployment, or other platform validation",
+  "nix_version": "2.35.2",
+  "nixpkgs_revision": "b6018f87da91d19d0ab4cf979885689b469cdd41",
+  "commits": {
+    "prompt-registry": "b7f7231",
+    "spanish-studio": "e93efef"
+  },
+  "initial_shell_seconds": {
+    "prompt-registry": 28.19,
+    "spanish-studio_initial_full_ffmpeg_variant": 61.0
+  },
+  "cache_notes": "Existing host npm cache and GitHub Packages authentication; concurrent environment realization and some test runs. Timings are observations, not controlled speed comparisons.",
+  "nix_store_size_observed": "2.7 GiB (includes initial full FFmpeg variant and build dependencies)",
+  "verification": {
+    "prompt-registry": {
+      "build": "passed",
+      "tests_passed": 149
+    },
+    "spanish-studio": {
+      "server_build": "passed",
+      "server_tests_passed": 624,
+      "server_tests_skipped": 2,
+      "client_build": "passed",
+      "client_tests_passed": 143,
+      "sidecar_tests_passed": 26,
+      "native_audio_sample_rate": 16000,
+      "native_audio_channels": 1,
+      "native_audio_pitch_hz": 220.0,
+      "native_heic_to_jpeg": "passed"
+    }
+  },
+  "initial_failure": "Spanish Studio env default test inherited explicit image binary overrides. Fixed test to unset those two variables during its defaults assertion; production code unchanged.",
+  "repositories": {
+    "prompt-registry": {
+      "results": [
+        {
+          "step": "cached-shell",
+          "seconds": 0.85,
+          "exit_code": 0
+        },
+        {
+          "step": "npm-server",
+          "seconds": 9.57,
+          "exit_code": 0
+        },
+        {
+          "step": "build-server",
+          "seconds": 4.97,
+          "exit_code": 0
+        },
+        {
+          "step": "test-server",
+          "seconds": 13.31,
+          "exit_code": 0
+        }
+      ],
+      "host-results": [
+        {
+          "step": "host-test-server",
+          "seconds": 19.22,
+          "exit_code": 0
+        }
+      ]
+    },
+    "spanish-studio": {
+      "results": [
+        {
+          "step": "cached-shell",
+          "seconds": 2.76,
+          "exit_code": 0
+        },
+        {
+          "step": "npm-root",
+          "seconds": 3.61,
+          "exit_code": 0
+        },
+        {
+          "step": "npm-server",
+          "seconds": 7.29,
+          "exit_code": 0
+        },
+        {
+          "step": "npm-client",
+          "seconds": 5.68,
+          "exit_code": 0
+        },
+        {
+          "step": "build-server",
+          "seconds": 4.55,
+          "exit_code": 0
+        },
+        {
+          "step": "test-server",
+          "seconds": 12.65,
+          "exit_code": 1
+        },
+        {
+          "step": "build-client",
+          "seconds": 11.22,
+          "exit_code": 0
+        },
+        {
+          "step": "test-client",
+          "seconds": 10.19,
+          "exit_code": 0
+        },
+        {
+          "step": "test-sidecar",
+          "seconds": 1.99,
+          "exit_code": 0
+        }
+      ],
+      "fixed-results": [
+        {
+          "step": "test-server-fixed",
+          "seconds": 26.36,
+          "exit_code": 0
+        }
+      ],
+      "host-results": [
+        {
+          "step": "host-test-server",
+          "seconds": 23.37,
+          "exit_code": 0
+        },
+        {
+          "step": "host-test-sidecar",
+          "seconds": 2.02,
+          "exit_code": 0
+        }
+      ]
+    }
+  },
+  "fresh_worktree_replay": [
+    {
+      "repository": "prompt-registry",
+      "checkout": "pilot",
+      "seconds": 0.91,
+      "tools": [
+        "v24.18.0",
+        "11.16.0",
+        "/nix/store/3f4w5y9w0m06wxrym612gxv3v2kar0wv-nodejs-24.18.0/bin/node",
+        "/nix/store/3f4w5y9w0m06wxrym612gxv3v2kar0wv-nodejs-24.18.0/bin/npm"
+      ]
+    },
+    {
+      "repository": "prompt-registry",
+      "checkout": "replay",
+      "seconds": 1.03,
+      "tools": [
+        "v24.18.0",
+        "11.16.0",
+        "/nix/store/3f4w5y9w0m06wxrym612gxv3v2kar0wv-nodejs-24.18.0/bin/node",
+        "/nix/store/3f4w5y9w0m06wxrym612gxv3v2kar0wv-nodejs-24.18.0/bin/npm"
+      ]
+    },
+    {
+      "repository": "spanish-studio",
+      "checkout": "pilot",
+      "seconds": 1.97,
+      "tools": [
+        "v24.18.0",
+        "11.16.0",
+        "/nix/store/3f4w5y9w0m06wxrym612gxv3v2kar0wv-nodejs-24.18.0/bin/node",
+        "/nix/store/3f4w5y9w0m06wxrym612gxv3v2kar0wv-nodejs-24.18.0/bin/npm",
+        "Python 3.12.13",
+        "/nix/store/l2g8p6dzj35f4zzfq7cxdad8i4j042i1-python3-3.12.13-env/bin/python",
+        "/nix/store/3951ap1kgmpvfypy7dl4jh76g40gln9m-ffmpeg-headless-8.0-bin/bin/ffmpeg",
+        "/nix/store/gjznqwglfggmf6f0crc1pyy1w11d1rm4-libheif-1.20.2-bin/bin/heif-dec",
+        "{'praat-parselmouth': '0.4.6', 'numpy': '2.3.4', 'Flask': '3.1.2', 'pytest': '8.4.2'}"
+      ]
+    },
+    {
+      "repository": "spanish-studio",
+      "checkout": "replay",
+      "seconds": 1.98,
+      "tools": [
+        "v24.18.0",
+        "11.16.0",
+        "/nix/store/3f4w5y9w0m06wxrym612gxv3v2kar0wv-nodejs-24.18.0/bin/node",
+        "/nix/store/3f4w5y9w0m06wxrym612gxv3v2kar0wv-nodejs-24.18.0/bin/npm",
+        "Python 3.12.13",
+        "/nix/store/l2g8p6dzj35f4zzfq7cxdad8i4j042i1-python3-3.12.13-env/bin/python",
+        "/nix/store/3951ap1kgmpvfypy7dl4jh76g40gln9m-ffmpeg-headless-8.0-bin/bin/ffmpeg",
+        "/nix/store/gjznqwglfggmf6f0crc1pyy1w11d1rm4-libheif-1.20.2-bin/bin/heif-dec",
+        "{'praat-parselmouth': '0.4.6', 'numpy': '2.3.4', 'Flask': '3.1.2', 'pytest': '8.4.2'}"
+      ]
+    }
+  ]
+}
