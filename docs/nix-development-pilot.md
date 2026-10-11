@@ -30,7 +30,9 @@ the exact patch version is pinned by Nixpkgs and can differ from the host.
 | spanish-studio | experiment/nix-dev-environment | /home/jkeyser/.worktrees/spanish-studio-nix-pilot |
 
 See each application's `docs/nix-development.md` for repeatable verification
-commands. These branches are local until explicitly published.
+commands. Jeffrey requested publication to `main` on 2026-10-11. Prompt Registry
+`b7f7231` and Spanish Studio `e93efef` are now pushed to their repositories'
+`main` branches. The worktrees above retain the original experiment branches.
 
 ## Installation and activation
 
@@ -111,7 +113,7 @@ from this run are under `/tmp/nix-pilot-results/` and are temporary.
 
 ## Next stage
 
-Use the documented Nix commands for work assigned to these pilot branches and
+Use the documented Nix commands for work assigned to these pilot repositories and
 record environment failures or manual setup steps. Add opt-in CI verification
-using the same lockfiles when the branches are published. Evaluate adoption
+using the same lockfiles on `main`. Evaluate adoption
 after several real worker runs; keep deployment changes outside this pilot.
