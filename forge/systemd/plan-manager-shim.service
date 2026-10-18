@@ -1,0 +1,13 @@
+[Unit]
+Description=plan-manager wake shim on 127.0.0.1:3099 (local /plan-manager/*, proxy rest to prod openclaw-bridge)
+After=network-online.target
+
+[Service]
+Environment=DEV_INBOX_DIR=/home/jkeyser/dev-inbox
+Environment=PATH=/home/jkeyser/.npm-global/bin:/home/jkeyser/.local/bin:/home/jkeyser/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/usr/bin/node /home/jkeyser/bin/plan-manager-shim.js
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target

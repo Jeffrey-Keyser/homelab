@@ -24,6 +24,18 @@ starved the services. The only path from forge to prod is `git push` → GitHub 
   for agency-hq is path mode → `deploy-proxy/deploy.sh` (lives at prod `~/agency-hq-deploy-proxy`, a
   tiny git repo) which runs `bin/agency-hq-remote-deploy.sh` on forge over SSH (the immutable-worktree
   dance: fetch, `git worktree add ~/releases/agency-hq/<sha>`, run the release's `deploy.sh`).
+- **Wakes and Telegram, both directions:**
+  - dev-inbox hardcodes `127.0.0.1:3099/plan-manager/wake/<id>` and the bridge's wake handler must run on
+    the host that owns `~/dev-inbox` (it writes `plans/<id>/wake-inbox/` and runs `scripts/plan-manager.sh`).
+    So forge runs `systemd/plan-manager-shim.service` (`bin/plan-manager-shim.js`) on `127.0.0.1:3099`: it
+    mounts openclaw-bridge's own `handlers/plan-manager` module and reverse-proxies every other path to the
+    real bridge on prod (Telegram notify, `/decisions/notify`, `/live-orchestration`). Needs `~/openclaw-bridge`
+    cloned + `npm ci`. Port 3099 is therefore **not** in the loopback bridge list.
+  - prod-side callers that assume agency-hq is local (nanoclaw's Telegram vote handler → `localhost:3040`,
+    nanoclaw container skill → `host.docker.internal:3040`) go through `prod-side/agency-hq-forge-proxy.service`
+    on prod: `socat 0.0.0.0:3040 → forge:3040`. Install it on prod as a user unit. Forge's loopback bridge must
+    keep 3040 excluded or traffic loops.
+  - Telegram bot for Accept cards (agency bot) hits `agency.jeffreykeyser.net/api/v1/webhook/telegram` → forge.
 - cloudflared does **not** hot-reload ingress rules; `scripts/update-cloudflared.sh` restarts it (~5 s blip).
 
 ## Env file: `~/.config/environment.d/50-forge-prod-endpoints.conf`

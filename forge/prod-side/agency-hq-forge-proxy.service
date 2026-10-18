@@ -1,0 +1,11 @@
+[Unit]
+Description=Reverse proxy: prod 0.0.0.0:3040 -> agency-hq on forge (100.108.178.13:3040) for prod-side callers that assume localhost (nanoclaw host + containers via host.docker.internal)
+After=network-online.target tailscaled.service
+
+[Service]
+ExecStart=/usr/bin/socat TCP-LISTEN:3040,fork,reuseaddr,bind=0.0.0.0 TCP:100.108.178.13:3040
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=default.target
