@@ -42,7 +42,7 @@ starved the services. The only path from forge to prod is `git push` → GitHub 
 
 ```
 AGENCY_HQ_URL=http://localhost:3040          # agency-hq runs on forge
-AGENCY_HQ_BASE_URL=http://100.99.136.81:3012
+AGENCY_HQ_BASE_URL=http://127.0.0.1:3040
 SOLO_VAULT_URL=http://100.99.136.81:3015
 OPENCLAW_BRIDGE_URL=http://100.99.136.81:3099
 PLAN_MANAGER_WEBHOOK_BASE=http://100.99.136.81:3099
