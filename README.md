@@ -2,11 +2,16 @@
 
 Personal home server setup for remote Claude Code CLI access via Tailscale.
 
+Two hosts since 2026-10-18: **beelink** (prod: data, apps, ingress) and **forge** (dev: dev-inbox,
+agency-hq, agent CLIs). See [`forge/README.md`](forge/README.md) for the split, the parity checklist
+and the bootstrap script.
+
 ## Hardware
 
 | Device | Model | Purpose |
 |--------|-------|---------|
-| **Server** | [Beelink ME Mini N150](https://www.bee-link.com/products/beelink-me-mini-n150) | Docker host, Claude Code CLI |
+| **Server (prod, `beelink`)** | [Beelink ME Mini N150](https://www.bee-link.com/products/beelink-me-mini-n150) | PostgreSQL, RabbitMQ, apps, cloudflared, deploy webhook |
+| **Dev host (`forge`)** | Beelink ME Mini N150 (16 GB, 1 TB) | dev-inbox, agency-hq, agent CLIs — see `forge/` |
 | **Travel Router** | [GL.iNet Beryl AX (GL-MT3000)](https://www.gl-inet.com/products/gl-mt3000/) | Tailscale access from anywhere |
 | **Remote KVM** | [GL.iNet Comet PoE (GL-RM1PE)](https://store-us.gl-inet.com/products/comet-poe-gl-rm1pe-remote-kvm-control-over-internet) | BIOS-level emergency access |
 
@@ -241,6 +246,8 @@ After placing the tunnel credentials file referenced by the configuration on the
 The script installs Cloudflare's official APT source, upgrades `cloudflared`, validates the tracked
 ingress rules, preserves the previous live configuration as `/etc/cloudflared/config.yml.previous`,
 and restarts the tunnel. Edit the tracked file and rerun the script for future ingress changes.
+cloudflared does not hot-reload ingress rules, so the restart is required (a few seconds of downtime
+for every hostname). `agency.jeffreykeyser.net` routes to forge over Tailscale (`100.108.178.13:3040`).
 
 ## Costs
 

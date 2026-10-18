@@ -154,7 +154,7 @@ ingress:
 
   # --- Port 3040: Agency HQ ---
   - hostname: agency.jeffreykeyser.net
-    service: http://localhost:3040
+    service: http://100.108.178.13:3040
     originRequest:
       connectTimeout: 120s
       keepAliveTimeout: 300s
