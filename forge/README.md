@@ -69,7 +69,10 @@ BEELINK_DEPLOY_CONFIG=/home/jkeyser/.config/dev-inbox/beelink-deploy-repos.forge
 8. agency-hq falls back to `localhost:<port>` for Pay (3017), cron (3016), feedback-registry (3025), logos
    (3070), ai-proxy (3005), struct (3032), nanoclaw status (3101) when env is unset → Pay login 503.
    Set them, and run the loopback bridge.
-9. Prod-only apt packages that matter for dev: bubblewrap expect sqlite3 shellcheck cmake pkg-config pipx
+9. **Copy `~/.gitconfig`** (user.name/email + gh credential helper). Without it the agency design-review
+   agent's commit fails `Author identity unknown` → `Agent invocation failed: exit code 128`, and the failed
+   intent blocks its replay lane so later Telegram accepts sit at 0 attempts.
+10. Prod-only apt packages that matter for dev: bubblewrap expect sqlite3 shellcheck cmake pkg-config pipx
    ffmpeg xvfb rclone postgresql-client google-chrome-stable.
 
 ## Rollback (either service back to prod)

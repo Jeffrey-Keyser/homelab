@@ -82,7 +82,8 @@ cat <<'NEXT'
      add Host github.com / Host beelink blocks to ~/.ssh/config; append forge .pub to prod ~/.ssh/authorized_keys
   3. copy from prod: ~/.claude (settings, CLAUDE.md, commands, hooks, skills, plugins, .credentials.json, projects/-home-jkeyser/memory),
      ~/.codex (auth.json, config.toml, rules, skills, plugins), ~/.kimi-code, ~/.opencode, ~/.config/dev-inbox*, ~/.config/agency-hq,
-     ~/.config/*.env, ~/.tmux.conf, ~/.local/bin/tmux (forensics shim), GITHUB_TOKEN/COPILOT_GITHUB_TOKEN exports
+     ~/.config/*.env, ~/.tmux.conf, ~/.gitconfig (git identity — design-review commits fail without it), ~/.local/bin/tmux (forensics shim),
+     GITHUB_TOKEN/COPILOT_GITHUB_TOKEN exports
   4. write ~/.config/environment.d/50-forge-prod-endpoints.conf (see forge/README.md), then: systemctl --user enable --now prod-loopback-bridge
   5. clone repos (SSH remotes), then dev-inbox: make all + scripts/install-systemd-units.sh; copy ~/.config/systemd/user/dev-inbox-*.service.d
      and ~/.local/share/dev-inbox (release store) + ~/dev-inbox/{results,plans,queue,releases,data,.env} from prod
