@@ -1,0 +1,11 @@
+[Unit]
+Description=Run provider-auth-watch every 3 hours
+
+[Timer]
+OnBootSec=10min
+OnUnitActiveSec=3h
+RandomizedDelaySec=5min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

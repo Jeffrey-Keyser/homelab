@@ -1,0 +1,9 @@
+[Unit]
+Description=Probe agent-CLI auth (claude/codex) and Claude setup-token expiry; Telegram alert via NanoClaw on sustained failure
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/bin/provider-auth-watch.sh
+TimeoutStartSec=15min
+Nice=10

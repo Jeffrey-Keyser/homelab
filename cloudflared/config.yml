@@ -179,7 +179,7 @@ ingress:
 
   # --- Wildcard: Cream City Web mockup previews ---
   - hostname: clip.jeffreykeyser.net
-    service: http://localhost:3053
+    service: http://100.108.178.13:3053
 
   # Spanish Studio — send API traffic directly to the backend; static SPA on 3055.
   - hostname: spanish-studio.jeffreykeyser.net
