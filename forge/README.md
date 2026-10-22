@@ -19,6 +19,14 @@ starved the services. The only path from forge to prod is `git push` → GitHub 
   bare literals in code work unchanged, and reaches prod loopback-only services (nanoclaw 3100–3102).
   - Add a port when a new service lands on prod. **Remove a port when a service moves to forge**
     (`ExitOnForwardFailure` refuses to start otherwise). Then `systemctl --user daemon-reload && systemctl --user restart prod-loopback-bridge`.
+  - AI Proxy's `/internal/model-consumers` accepts only direct loopback requests. Agency HQ must use
+    `AI_PROXY_MODEL_STATUS_URL=http://127.0.0.1:3005` through the SSH bridge; the prod Tailscale address
+    returns 401 and leaves the Models page inventory unavailable. Bootstrap installs
+    `systemd/agency-hq.service.d/model-inventory.conf` into `~/.config/systemd/user/agency-hq.service.d/`
+    and `agency-hq/model-inventory.env.example` as `~/.config/agency-hq/model-inventory.env`.
+    The drop-in loads this setting after the main unit's env files
+    and starts the bridge with Agency HQ. After installing on an existing host, run
+    `systemctl --user daemon-reload && systemctl --user restart agency-hq`.
 - **prod → forge:** cloudflared `agency.jeffreykeyser.net → http://100.108.178.13:3040`;
   `struct.service.d/agency-forge.conf` sets `AGENCY_HQ_URL`; beelink-deploy's live `repos.json` entry
   for agency-hq is path mode → `deploy-proxy/deploy.sh` (lives at prod `~/agency-hq-deploy-proxy`, a

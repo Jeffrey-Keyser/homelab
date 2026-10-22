@@ -72,6 +72,9 @@ sudo loginctl enable-linger "$USER"
 log "prod loopback bridge unit (edit the port list when services move)"
 mkdir -p ~/.config/systemd/user ~/bin
 install -m 644 "$HERE/systemd/prod-loopback-bridge.service" ~/.config/systemd/user/
+mkdir -p ~/.config/systemd/user/agency-hq.service.d ~/.config/agency-hq
+install -m 644 "$HERE/systemd/agency-hq.service.d/model-inventory.conf" ~/.config/systemd/user/agency-hq.service.d/
+install -m 644 "$HERE/agency-hq/model-inventory.env.example" ~/.config/agency-hq/model-inventory.env
 install -m 755 "$HERE/bin/agency-hq-remote-deploy.sh" ~/bin/
 systemctl --user daemon-reload
 
